@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aakshta Rao: AI systems I’ve built</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#F2F5F9;--surface:#FFFFFF;--ink:#15202E;--muted:#506074;--line:#CBD5E1;
+  --accent:#2748D6;--accent-soft:#E3E9FC;--good:#0B7A5C;--good-soft:#DCF3EB;
+  --head:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1520;--surface:#162131;--ink:#E7EDF5;--muted:#9BAABD;--line:#2B3A4F;
+    --accent:#86A2FF;--accent-soft:#1E2C54;--good:#4FD1A5;--good-soft:#123A30;color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1520;--surface:#162131;--ink:#E7EDF5;--muted:#9BAABD;--line:#2B3A4F;
+  --accent:#86A2FF;--accent-soft:#1E2C54;--good:#4FD1A5;--good-soft:#123A30;color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.6 var(--body)}
+main{max-width:52rem;margin:0 auto;padding:3.5rem 1.25rem 4rem}
+h1,h2,h3{font-family:var(--head);line-height:1.12;margin:0}
+h1{font-size:clamp(2.1rem,6vw,3.4rem);font-weight:700;letter-spacing:-.02em;max-width:18ch}
+.lede{max-width:60ch;color:var(--muted);margin:1.25rem 0 0}
+.note{margin:1.5rem 0 0;padding:.75rem 1rem;border-left:3px solid var(--accent);background:var(--accent-soft);font-size:.95rem;max-width:60ch}
+.build{margin-top:4rem;padding-top:2rem;border-top:1px solid var(--line)}
+h2{font-size:clamp(1.5rem,4vw,2rem);font-weight:700;letter-spacing:-.01em}
+.tag{margin:.4rem 0 0;color:var(--muted)}
+h3{font-size:1rem;font-weight:700;margin:1.75rem 0 .4rem;font-family:var(--body)}
+p{margin:0 0 .75rem;max-width:62ch}
+.flow{display:flex;flex-wrap:wrap;gap:.75rem 1.5rem;list-style:none;margin:.75rem 0 0;padding:0}
+.flow li{position:relative;background:var(--surface);border:1.5px solid var(--ink);padding:.6rem .85rem;font-size:.92rem;line-height:1.35;max-width:15rem}
+.flow li strong{display:block;font-size:.95rem}
+.flow li span{color:var(--muted)}
+.flow li.llm{border-radius:1.1rem;border-style:dashed;border-color:var(--accent)}
+.flow li:not(:last-child)::after{content:"";position:absolute;top:50%;right:-1.5rem;width:1.5rem;border-top:1.5px solid var(--ink)}
+.legend{font-size:.88rem;color:var(--muted);margin:.75rem 0 0}
+.stores{font-size:.92rem;color:var(--muted);margin:.75rem 0 0}
+.outcome{display:flex;flex-wrap:wrap;gap:.6rem;margin:.5rem 0 0;padding:0;list-style:none}
+.outcome li{background:var(--good-soft);color:var(--ink);border-left:3px solid var(--good);padding:.45rem .75rem;font-size:.95rem}
+.learned{margin:.25rem 0 0;padding-left:1.1rem;max-width:62ch}
+.learned li{margin-bottom:.4rem}
+.also{margin-top:4rem;padding-top:2rem;border-top:1px solid var(--line)}
+footer{margin-top:4rem;padding-top:2rem;border-top:1px solid var(--line);color:var(--muted)}
+a{color:var(--accent);text-underline-offset:3px}
+a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+@media (max-width:40rem){
+  .flow{flex-direction:column;gap:1.25rem}
+  .flow li{max-width:none}
+  .flow li:not(:last-child)::after{top:auto;right:auto;left:1.5rem;bottom:-1.25rem;width:0;height:1.25rem;border-top:0;border-left:1.5px solid var(--ink)}
+}
+</style>
+</head>
+<body>
+<main>
+  <h1>I turn messy work problems into live AI systems.</h1>
+  <p class="lede">I’m Aakshta Rao, based in Bengaluru. I work as de facto Chief of Staff to the Head of L&amp;D &amp; Culture at a fintech company, and I build the tools my teams and leaders need without a dedicated engineering team. Below are four builds: the problem, how each one is put together, what changed, and what I took from it.</p>
+  <p class="note">Everything here is described in general terms. No company data, screenshots or code are shown. I build with AI-assisted Python and SQL, n8n, Google Apps Script, Slack apps and Google APIs.</p>
+
+  <section class="build" id="hr-agent-os">
+    <h2>HR-Agent-OS</h2>
+    <p class="tag">A multi-agent Slack copilot for HR business partners (HRBPs) and leaders</p>
+
+    <h3>The problem</h3>
+    <p>HR leaders had no visibility into whether 1:1s were happening, and employees said they were infrequent. No data existed to say either way.</p>
+
+    <h3>How it’s put together</h3>
+    <ol class="flow">
+      <li><strong>Two Slack apps</strong><span>One assistant for HRBPs, one for private employee check-ins</span></li>
+      <li><strong>Two deterministic workers</strong><span>Fixed rules, same answer every time</span></li>
+      <li class="llm"><strong>Two LLM analysis agents</strong><span>One reads employee check-ins, one reads HRBP 1:1 notes</span></li>
+      <li><strong>Human-in-the-loop review</strong><span>A person checks before it’s acted on</span></li>
+      <li><strong>Dashboards</strong><span>Looker and an internal tool</span></li>
+    </ol>
+    <p class="legend">Square boxes are fixed logic. The rounded dashed box is where a language model is involved.</p>
+    <p class="stores">Data sits in SQLite. Employee wikis are markdown files. Access is limited to HRBPs.</p>
+
+    <h3>The sourcing logic</h3>
+    <p>I wrote the logic that tells each HRBP who to meet this month, using survey and sentiment data. It sorts people into four buckets that never overlap, in priority order: high performers not met in three months, people not met in six months who show low or falling mood, anyone else not met in six months, and people reaching a tenure milestone. Each HRBP’s list is capped so it stays something they can act on.</p>
+
+    <h3>The guardrails</h3>
+    <p>The AI only interprets a conversation after the record exists. It can summarise what was said but cannot change it, and the analysing agents are told never to follow instructions found inside a transcript. The employee check-in agent only listens and never gives advice. A person reviews the monthly leader report before it goes out.</p>
+
+    <h3>The mechanical work it removes</h3>
+    <p>Booking a 1:1 from a one-line Slack message, pulling 1:1 notes in without manual logging, keeping one running notes file per employee, and drafting the month-end report for each leader.</p>
+
+    <h3>What changed</h3>
+    <ul class="outcome">
+      <li>Serves 26 HRBPs and 82 leaders, up to co-founders</li>
+      <li>Monthly HRBP report: from ~2-3 hours to under 10 minutes</li>
+      <li>~50-75 hours a month saved across HRBPs</li>
+      <li>~21 1:1s per HRBP per month now tracked</li>
+    </ul>
+
+    <h3>What I learned</h3>
+    <ul class="learned">
+      <li>Validate the problem with the people who live it, and get their buy-in, before writing anything.</li>
+      <li>Stress-test repeatedly, then pilot with a smaller group before wider use. A quality-check dashboard made output problems visible.</li>
+      <li>Keep fixed logic fixed and use the language model only where judgement or wording is needed.</li>
+      <li>Restricting access early made the tool easier to trust.</li>
+      <li>Treat anything a model reads, such as a transcript, as untrusted input.</li>
+    </ul>
+  </section>
+
+  <section class="build" id="deck-generator">
+    <h2>Sales deck generator</h2>
+    <p class="tag">A Slack agent that builds on-brand, merchant-specific decks</p>
+
+    <h3>The problem</h3>
+    <p>Every merchant-specific sales deck depended on the design team, so turnaround took days or weeks.</p>
+
+    <h3>How it’s put together</h3>
+    <ol class="flow">
+      <li><strong>Request in Slack</strong><span>Where sales already works</span></li>
+      <li class="llm"><strong>Agent</strong><span>Builds the deck for that merchant</span></li>
+      <li><strong>On-brand deck</strong><span>Returned in the same thread</span></li>
+    </ol>
+
+    <h3>What changed</h3>
+    <ul class="outcome">
+      <li>~200 users, ~25 decks a month</li>
+      <li>Turnaround from days or weeks to minutes</li>
+      <li>Sales no longer depends on design</li>
+    </ul>
+
+    <h3>What I learned</h3>
+    <ul class="learned">
+      <li>Putting the tool where people already work removes most of the adoption effort.</li>
+      <li>Removing a dependency matters as much as saving time.</li>
+    </ul>
+  </section>
+
+  <section class="build" id="session-automation">
+    <h2>Learning session automation</h2>
+    <p class="tag">Scheduling, attendance and documentation for ~200 org-wide sessions a month</p>
+
+    <h3>The problem</h3>
+    <p>Running learning sessions across the organisation meant weeks of manual effort on scheduling, invites, attendance and documentation.</p>
+
+    <h3>How it’s put together</h3>
+    <ol class="flow">
+      <li><strong>Scheduling</strong><span>Each session starts as one row in a sheet. The ID and duration are generated automatically</span></li>
+      <li><strong>Invites</strong></li>
+      <li><strong>Attendance</strong><span>Tracked per session. Processed rows are marked done</span></li>
+      <li><strong>Documentation</strong><span>Processed attendance is copied to a central log</span></li>
+    </ol>
+    <p class="stores">Built with Google Apps Script, Google APIs and n8n. Each step has its own on/off switch and debug logging, so I can turn one off or trace it without touching the rest.</p>
+
+    <h3>What changed</h3>
+    <ul class="outcome">
+      <li>Effort cut from weeks to under 30 minutes</li>
+    </ul>
+
+    <h3>What I learned</h3>
+    <ul class="learned">
+      <li>Automating the whole chain, not one step, is what turned weeks into minutes.</li>
+      <li>Build in switches and logging from the start, so a step can be turned off or traced without breaking the rest.</li>
+    </ul>
+  </section>
+
+  <section class="build" id="ai-access">
+    <h2>AI access and cost</h2>
+    <p class="tag">Opening AI to every team without the bill growing with it</p>
+
+    <h3>The problem</h3>
+    <p>Because of cost, Claude was limited to about 5% of each function.</p>
+
+    <h3>How it’s put together</h3>
+    <ol class="flow">
+      <li><strong>Teams</strong><span>Using AI day to day</span></li>
+      <li><strong>Open-source AI gateway and LLM proxy</strong><span>One entry point for usage</span></li>
+      <li class="llm"><strong>Lower-cost models</strong><span>From Fireworks AI, a model provider</span></li>
+    </ol>
+
+    <h3>What changed</h3>
+    <ul class="outcome">
+      <li>100% of teams now have access</li>
+      <li>AI costs down ~30-40%</li>
+    </ul>
+
+    <h3>What I learned</h3>
+    <ul class="learned">
+      <li>Cost was the real blocker. Fixing it worked better than rationing access.</li>
+    </ul>
+  </section>
+
+  <section class="build" id="currently-building">
+    <h2>Currently building: a new-joiner learning bot</h2>
+    <p class="tag">In planning. Nothing here has shipped yet.</p>
+
+    <h3>The problem</h3>
+    <p>New joiners need to work through a required learning path in order. The assessments sit in a learning platform with no API, so the bot can’t see completions in real time.</p>
+
+    <h3>How it’s designed</h3>
+    <ol class="flow">
+      <li><strong>Joiner trigger</strong><span>HR data checked daily, matched on start date</span></li>
+      <li><strong>Slack journey</strong><span>A gated path, with weekday nudges only for people with open actions</span></li>
+      <li><strong>Completion check</strong><span>Learner declares, a nightly report confirms</span></li>
+      <li><strong>Reporting</strong><span>Deduped exceptions and a daily digest, no intervention in the journey</span></li>
+    </ol>
+    <p class="stores">The learner never waits on batch data, and a manual pull covers a missed nightly report. The core logic doesn’t depend on Slack, so it can be dry-run on its own. Scope stays small until pilot data exists. A separate monthly check-in survey tool, kept isolated from this one, is the next build.</p>
+  </section>
+
+  <section class="also">
+    <h2>Beyond my own builds</h2>
+    <p>I also help other teams build. I ran a 3-day AI hackathon with 1,700+ builders across 400+ teams, almost half without engineers, and 12 demos are now in talks for production. I coached teams on their own tools, including a leaderboard for Sales and a payroll assistant for Finance, and ran 11 Claude and Gemini sessions for 1,200+ people in a single month.</p>
+  </section>
+
+  <footer>
+    <p>Want to talk about any of these? <a href="mailto:aakshtaj.rao@gmail.com">aakshtaj.rao@gmail.com</a></p>
+  </footer>
+</main>
+</body>
+</html>
