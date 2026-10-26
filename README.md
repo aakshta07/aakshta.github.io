@@ -2,14 +2,16 @@
 
 A one-page portfolio of the AI systems and automations I've built, each with the problem, how it's put together, what changed and what I learned.
 
-**Live page:** aakshta.github.io
+**Live page:** [aakshta.github.io](https://aakshta07.github.io/aakshta.github.io/)
 
 ## What's on the page
 
+- **n8n leadership-reporting pipeline:** three chained n8n workflows that turn raw HR data into AI-written leadership reports
 - **HR-Agent-OS:** a multi-agent Slack copilot for HR business partners and leaders
 - **Sales deck generator:** a Slack agent that builds on-brand, merchant-specific decks
 - **Learning session automation:** scheduling, attendance and documentation for ~200 sessions a month
 - **AI access and cost:** opening AI to every team while cutting costs ~30-40%
+- **Teaching teams to build their own:** workshops, a guardrails course, office hours, a hackathon and champions
 - **Currently building:** a new-joiner learning bot (in planning)
 
 ## Notes
