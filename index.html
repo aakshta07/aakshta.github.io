@@ -49,7 +49,6 @@ p{margin:0 0 .75rem;max-width:62ch}
 .outcome li{background:var(--good-soft);color:var(--ink);border-left:3px solid var(--good);padding:.45rem .75rem;font-size:.95rem}
 .learned{margin:.25rem 0 0;padding-left:1.1rem;max-width:62ch}
 .learned li{margin-bottom:.4rem}
-.also{margin-top:4rem;padding-top:2rem;border-top:1px solid var(--line)}
 footer{margin-top:4rem;padding-top:2rem;border-top:1px solid var(--line);color:var(--muted)}
 a{color:var(--accent);text-underline-offset:3px}
 a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
@@ -63,8 +62,43 @@ a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 <body>
 <main>
   <h1>I turn messy work problems into live AI systems.</h1>
-  <p class="lede">I’m Aakshta Rao, based in Bengaluru. I work as de facto Chief of Staff to the Head of L&amp;D &amp; Culture at a fintech company, and I build the tools my teams and leaders need without a dedicated engineering team. Below are four builds: the problem, how each one is put together, what changed, and what I took from it.</p>
-  <p class="note">Everything here is described in general terms. No company data, screenshots or code are shown. I build with AI-assisted Python and SQL, n8n, Google Apps Script, Slack apps and Google APIs.</p>
+  <p class="lede">I’m Aakshta Rao, based in Bengaluru and relocating to Germany (I will need visa sponsorship). I work as de facto Chief of Staff to the Head of L&amp;D &amp; Culture at a fintech company, and I build the tools my teams and leaders need without a dedicated engineering team. I also teach other teams to build their own. Below are five builds, one in progress, and the enablement work around them: the problem, how each one is put together, what changed, and what I took from it.</p>
+  <p class="note">Everything here is described in general terms. No company data, screenshots or code are shown. I build with n8n, AI-assisted Python and SQL, Google Apps Script, Slack apps and Google APIs.</p>
+
+  <section class="build" id="n8n-reporting">
+    <h2>n8n leadership-reporting pipeline</h2>
+    <p class="tag">Three chained n8n workflows that turn raw HR data into AI-written leadership reports</p>
+
+    <h3>The problem</h3>
+    <p>Leaders at different levels needed a monthly view of 1:1 coverage, engagement and retention risk. Building it by hand from spreadsheets was slow and gave different answers each time, and one report format could not suit both a founder and a team leader.</p>
+
+    <h3>How it’s put together</h3>
+    <ol class="flow">
+      <li><strong>Workflow 1: hierarchy</strong><span>Builds a leader-to-team map from employee and manager data</span></li>
+      <li><strong>Workflow 2: data prep</strong><span>Calculates 1:1 coverage, engagement participation, mood, sentiment spread, high-risk indicators and retention measures per leader</span></li>
+      <li class="llm"><strong>Workflow 3: report</strong><span>A webhook triggers a Vertex AI/Gemini step that writes the report</span></li>
+      <li><strong>Quality check</strong><span>Each report returns structured output with a parse-success flag, so a failed report is caught before anyone reads it</span></li>
+    </ol>
+    <p class="legend">Square boxes are fixed logic. The rounded dashed box is where a language model is involved.</p>
+    <p class="stores">Built with form and manual triggers, Google Sheets reads and writes, batching, loops, wait nodes, structured JSON parsing, error fallbacks and validation of source values.</p>
+
+    <h3>The guardrails</h3>
+    <p>All numbers are calculated before the model sees them, so it writes the report but never recalculates sentiment or mood. Prompts are written for each leadership level (founders, SVP/VP, SD), and senior-leader reports are barred from showing individual employee names. Every report follows the same structure: summary, highlights, lowlights, recommendations, coverage and retention.</p>
+
+    <h3>What changed</h3>
+    <ul class="outcome">
+      <!-- Add one real number here, e.g. hours saved or reports a month -->
+      <li>Every leader gets the same metrics, calculated the same way</li>
+      <li>Became the base for HR-Agent-OS, below</li>
+    </ul>
+
+    <h3>What I learned</h3>
+    <ul class="learned">
+      <li>Keep the calculations fixed and use the model only to write.</li>
+      <li>Build the failure check in from the start, not after the first bad report.</li>
+      <li>Privacy rules belong in the design, not in a reviewer’s checklist.</li>
+    </ul>
+  </section>
 
   <section class="build" id="hr-agent-os">
     <h2>HR-Agent-OS</h2>
@@ -193,6 +227,38 @@ a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
     </ul>
   </section>
 
+  <section class="build" id="enablement">
+    <h2>Teaching teams to build their own</h2>
+    <p class="tag">Workshops, a guardrails course, office hours, a hackathon and champions</p>
+
+    <h3>The problem</h3>
+    <p>Teams like Sales, People Ops, Customer Success and Finance had real workflows worth automating but no engineers to build them. Many had never built anything with AI, and any wider rollout had to be safe.</p>
+
+    <h3>What I ran</h3>
+    <ol class="flow">
+      <li><strong>Hands-on sessions</strong><span>n8n, Claude and Gemini for Sales, People Ops, CIO, Customer Success and teams in Malaysia, Singapore and the US</span></li>
+      <li><strong>Course with guardrails</strong><span>Built inside the company’s internal AI tool, including a security module</span></li>
+      <li><strong>Hackathon and office hours</strong><span>Mentoring and sprint-based delivery for builders, including people with no engineering background</span></li>
+      <li><strong>Champions</strong><span>Every team has an identified AI champion</span></li>
+    </ol>
+
+    <h3>What changed</h3>
+    <ul class="outcome">
+      <li>11 sessions for 1,200+ people in a single month</li>
+      <li>1,700+ builders across 400+ teams in the hackathon, almost half without engineers</li>
+      <li>12 demos now in talks for production</li>
+      <li>The course is still in use without me</li>
+      <li>Teams shipped their own tools, including a leaderboard for Sales and a payroll assistant for Finance</li>
+    </ul>
+
+    <h3>What I learned</h3>
+    <ul class="learned">
+      <li>Build live with a team on their own problem. It works better than demos.</li>
+      <li>Put security in the first session, so teams build safely from day one.</li>
+      <li>Champions in each team keep the knowledge there after I leave.</li>
+    </ul>
+  </section>
+
   <section class="build" id="currently-building">
     <h2>Currently building: a new-joiner learning bot</h2>
     <p class="tag">In planning. Nothing here has shipped yet.</p>
@@ -208,11 +274,6 @@ a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
       <li><strong>Reporting</strong><span>Deduped exceptions and a daily digest, no intervention in the journey</span></li>
     </ol>
     <p class="stores">The learner never waits on batch data, and a manual pull covers a missed nightly report. The core logic doesn’t depend on Slack, so it can be dry-run on its own. Scope stays small until pilot data exists. A separate monthly check-in survey tool, kept isolated from this one, is the next build.</p>
-  </section>
-
-  <section class="also">
-    <h2>Beyond my own builds</h2>
-    <p>I also help other teams build. I ran a 3-day AI hackathon with 1,700+ builders across 400+ teams, almost half without engineers, and 12 demos are now in talks for production. I coached teams on their own tools, including a leaderboard for Sales and a payroll assistant for Finance, and ran 11 Claude and Gemini sessions for 1,200+ people in a single month.</p>
   </section>
 
   <footer>
